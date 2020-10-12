@@ -6,6 +6,7 @@
   Unity.CurrentTestName = #TestFunc; \
   Unity.CurrentTestLineNumber = TestLineNum; \
   Unity.NumberOfTests++; \
+  UNITY_EXEC_TIME_START(); \
   if (TEST_PROTECT()) \
   { \
       setUp(); \
@@ -15,12 +16,16 @@
   { \
     tearDown(); \
   } \
+  UNITY_EXEC_TIME_STOP(); \
   UnityConcludeTest(); \
 }
 
 /*=======Automagically Detected Files To Include=====*/
+#define UNITY_INCLUDE_SETUP_STUBS
 #include "unity.h"
+#ifndef UNITY_EXCLUDE_SETJMP_H
 #include <setjmp.h>
+#endif
 #include <stdio.h>
 #include "foo.h"
 
@@ -29,7 +34,33 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_foo1(void);
 extern void test_foo2(void);
+extern void test_sort1(void);
+extern void test_sort_duplicatedValues(void);
+extern void test_sort_negativeValues(void);
+extern void test_sort_OneValue(void);
+extern void test_sort_OneValueDifferent(void);
+extern void test_sort_OnlyNegativeValues(void);
+extern void test_sort_BigArray(void);
+extern void test_sort_With0Values(void);
 
+
+/*=======Suite Setup=====*/
+static void suite_setup(void)
+{
+#if defined(UNITY_WEAK_ATTRIBUTE) || defined(UNITY_WEAK_PRAGMA)
+  suiteSetUp();
+#endif
+}
+
+/*=======Suite Teardown=====*/
+static int suite_teardown(int num_failures)
+{
+#if defined(UNITY_WEAK_ATTRIBUTE) || defined(UNITY_WEAK_PRAGMA)
+  return suiteTearDown(num_failures);
+#else
+  return num_failures;
+#endif
+}
 
 /*=======Test Reset Option=====*/
 void resetTest(void);
@@ -43,9 +74,18 @@ void resetTest(void)
 /*=======MAIN=====*/
 int main(void)
 {
+  suite_setup();
   UnityBegin("test/TestFoo.c");
-  RUN_TEST(test_foo1, 14); // testname + line number
-  RUN_TEST(test_foo2, 21);
+  RUN_TEST(test_foo1, 15);
+  RUN_TEST(test_foo2, 22);
+  RUN_TEST(test_sort1, 27);
+  RUN_TEST(test_sort_duplicatedValues, 40);
+  RUN_TEST(test_sort_negativeValues, 67);
+  RUN_TEST(test_sort_OneValue, 80);
+  RUN_TEST(test_sort_OneValueDifferent, 93);
+  RUN_TEST(test_sort_OnlyNegativeValues, 106);
+  RUN_TEST(test_sort_BigArray, 119);
+  RUN_TEST(test_sort_With0Values, 132);
 
-  return (UnityEnd());
+  return suite_teardown(UnityEnd());
 }
