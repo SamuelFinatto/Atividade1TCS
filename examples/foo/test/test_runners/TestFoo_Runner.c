@@ -42,6 +42,13 @@ extern void test_sort_OneValueDifferent(void);
 extern void test_sort_OnlyNegativeValues(void);
 extern void test_sort_BigArray(void);
 extern void test_sort_With0Values(void);
+extern void test_sort_WithDifferentSizes(void);
+extern void test_sort_ArrayOfChars(void);
+extern void test_sort_BigAndWorstCase(void);
+extern void test_sort_BigAndBestCase(void);
+extern void test_sort_EmptyArray(void);
+extern void test_sort_DecimalValues(void);
+extern void test_sort_NullArray(void);
 
 
 /*=======Suite Setup=====*/
@@ -86,6 +93,13 @@ int main(void)
   RUN_TEST(test_sort_OnlyNegativeValues, 106);
   RUN_TEST(test_sort_BigArray, 119);
   RUN_TEST(test_sort_With0Values, 132);
+  RUN_TEST(test_sort_WithDifferentSizes, 145);
+  RUN_TEST(test_sort_ArrayOfChars, 158);
+  RUN_TEST(test_sort_BigAndWorstCase, 170);
+  RUN_TEST(test_sort_BigAndBestCase, 182);
+  RUN_TEST(test_sort_EmptyArray, 194);
+  RUN_TEST(test_sort_DecimalValues, 206);
+  RUN_TEST(test_sort_NullArray, 218);
 
   return suite_teardown(UnityEnd());
 }
